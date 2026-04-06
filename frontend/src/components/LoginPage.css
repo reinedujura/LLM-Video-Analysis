@@ -1,0 +1,154 @@
+/* Login page styles with neomorphism design. */
+
+.login-page {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+    padding: var(--spacing-md);
+    position: relative;
+    overflow: hidden;
+}
+
+.login-page::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at 20% 50%, rgba(232, 33, 39, 0.05) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(255, 255, 255, 0.02) 0%, transparent 50%);
+    pointer-events: none;
+}
+
+.login-container {
+    width: 100%;
+    max-width: 420px;
+}
+
+.login-card {
+    background: rgba(32, 32, 32, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 1rem;
+    padding: var(--spacing-2xl);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4),
+        inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+    text-align: center;
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    position: relative;
+    z-index: 1;
+}
+
+.login-title {
+    color: #ffffff;
+    margin-bottom: var(--spacing-sm);
+    font-size: 1.875rem;
+    font-weight: 300;
+    letter-spacing: 0.5px;
+    text-transform: capitalize;
+
+    .login-subtitle {
+        color: #a0a0a0;
+        margin-bottom: var(--spacing-xl);
+        font-size: var(--font-size-sm);
+        font-weight: 400;
+        letter-spacing: 0.3px;
+    }
+
+    .login-form {
+        display: flex;
+        flex-direction: column;
+        gap: var(--spacing-md);
+        margin-bottom: var(--spacing-lg);
+    }
+
+    .form-group {
+        display: flex;
+        flex-direction: column;
+        gap: var(--spacing-sm);
+        text-align: left;
+    }
+
+    .form-group label {
+        font-weight: 500;
+        color: #e8e8e8;
+        font-size: 0.875rem;
+        letter-spacing: 0.3px;
+        text-transform: capitalize;
+    }
+
+    .form-group input {
+        background: rgba(255, 255, 255, 0.06);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        border-radius: 0.5rem;
+        padding: 0.875rem 1.25rem;
+        color: #ffffff;
+        font-size: var(--font-size-base);
+        box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+    }
+
+    .form-group input:focus {
+        outline: none;
+        border-color: #e82127;
+        background: rgba(255, 255, 255, 0.08);
+        box-shadow: inset 0 0 0 1px rgba(232, 33, 39, 0.5);
+
+        .form-group input::placeholder {
+            color: #7a7a7a;
+        }
+
+        .login-button {
+            width: 100%;
+            padding: 0.875rem 1.5rem;
+            font-size: var(--font-size-base);
+            font-weight: 600;
+            background: #e82127;
+            color: #ffffff;
+            border: none;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 15px rgba(232, 33, 39, 0.3);
+            cursor: pointer;
+            transition: all var(--transition-normal);
+            letter-spacing: 0.5px;
+
+            .login-button:hover:not(:disabled) {
+                background: #cc1b23;
+                box-shadow: 0 6px 20px rgba(232, 33, 39, 0.4);
+                transform: translateY(-1px);
+
+                .login-button:active:not(:disabled) {
+                    transform: translateY(0);
+                }
+
+                .login-button:disabled {
+                    opacity: 0.6;
+                    cursor: not-allowed;
+                }
+
+                .demo-hint {
+                    font-size: var(--font-size-sm);
+                    color: #7a7a7a;
+                    margin: 0;
+                    margin-top: var(--spacing-xl);
+                    font-weight: 400;
+                    letter-spacing: 0.3px;
+                }
+
+                .alert {
+                    border-radius: 0.5rem;
+                    padding: 0.875rem 1.25rem;
+                    margin-bottom: var(--spacing-lg);
+                    font-size: var(--font-size-sm);
+                    border: 1px solid;
+                    box-shadow: inset 0 0 0 1px rgba(232, 33, 39, 0.3);
+                    background: rgba(232, 33, 39, 0.1);
+                }
+
+                .alert-error {
+                    background: rgba(232, 33, 39, 0.12);
+                    color: #ff9999;
+                    border-color: rgba(232, 33, 39, 0.3);
+                }

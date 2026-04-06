@@ -267,7 +267,6 @@ For issues or questions:
 1. Check the backend README.md
 2. Check the frontend README.md
 3. Review API documentation at /docs
-4. Check STANDARDS folder for technical guidelines
 
 ---
 

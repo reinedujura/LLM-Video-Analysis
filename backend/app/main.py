@@ -29,6 +29,9 @@ logger = get_logger(__name__)
 # Load settings
 settings = get_settings()
 
+logger.info(f"API Key loaded: {settings.GEMINI_API_KEY[:20]}...")
+logger.info(f"API Key length: {len(settings.GEMINI_API_KEY)}")
+
 # Initialize rate limiter
 limiter = Limiter(key_func=get_remote_address)
 

@@ -7,6 +7,8 @@ Single responsibility: handles all analysis logic.
 
 import base64
 import io
+import tempfile
+import time
 from typing import Optional
 import logging
 
@@ -49,8 +51,10 @@ class VideoAnalysisService:
             Google Genai client instance
         """
         if self._client is None:
+            api_key = self.settings.GEMINI_API_KEY
+            logger.info(f"Initializing Gemini client with API key: {api_key[:20]}...")
             self._client = genai.Client(
-                api_key=self.settings.GEMINI_API_KEY
+                api_key=api_key
             )
         return self._client
 
@@ -142,17 +146,72 @@ class VideoAnalysisService:
             file_content
         ).decode("utf-8")
 
+        # Prepare file data as base64
+        file_data_b64 = base64.standard_b64encode(
+            file_content
+        ).decode("utf-8")
+
         try:
-            # Call Gemini API with file content
+            # Map mime type to file extension for proper detection
+            mime_to_ext = {
+                'image/jpeg': '.jpg',
+                'image/png': '.png',
+                'image/gif': '.gif',
+                'image/webp': '.webp',
+                'video/mp4': '.mp4',
+                'video/mpeg': '.mpeg',
+                'video/quicktime': '.mov',
+                'video/x-msvideo': '.avi',
+                'video/x-matroska': '.mkv',
+                'audio/mp3': '.mp3',
+                'audio/mpeg': '.mp3',
+                'audio/wav': '.wav',
+                'audio/webm': '.webm',
+            }
+            
+            file_ext = mime_to_ext.get(mime_type, '.tmp')
+            
+            # Write file to temporary location with proper extension
+            with tempfile.NamedTemporaryFile(delete=False, suffix=file_ext) as tmp_file:
+                tmp_file.write(file_content)
+                tmp_file_path = tmp_file.name
+            
+            logger.info(f"Uploading file for analysis: {tmp_file_path} (mime: {mime_type})")
+            file_upload_response = self.client.files.upload(
+                file=tmp_file_path,
+            )
+            logger.info(f"File uploaded: {file_upload_response.uri}")
+            
+            # Wait for file to become ACTIVE (required by Google API)
+            file_id = file_upload_response.name.split('/')[-1]  # Extract file ID from name
+            max_retries = 30
+            retry_count = 0
+            file_obj = file_upload_response
+            
+            while file_obj.state.name != "ACTIVE" and retry_count < max_retries:
+                retry_count += 1
+                wait_time = min(2 ** retry_count, 10)  # Exponential backoff, max 10 seconds
+                logger.info(f"File processing... state: {file_obj.state.name}, waiting {wait_time}s")
+                time.sleep(wait_time)
+                file_obj = self.client.files.get(name=file_id)
+            
+            if file_obj.state.name != "ACTIVE":
+                raise ExternalServiceException(
+                    service_name="Google Gemini",
+                    detail=f"File did not reach ACTIVE state after {max_retries} attempts. Final state: {file_obj.state.name}"
+                )
+            
+            logger.info(f"File is ACTIVE and ready for analysis")
+            
+            # Call Gemini API with file URI
             response = self.client.models.generate_content(
                 model=self.settings.GEMINI_MODEL,
                 contents=[
                     genai_types.ContentDict(
                         parts=[
                             genai_types.PartDict(
-                                inline_data=genai_types.BlobDict(
-                                    mime_type=mime_type,
-                                    data=file_data_b64,
+                                file_data=genai_types.FileDataDict(
+                                    file_uri=file_obj.uri
                                 ),
                             ),
                             genai_types.PartDict(

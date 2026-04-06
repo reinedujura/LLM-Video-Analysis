@@ -1,6 +1,6 @@
-# LLM Video Analytics - Complete Application
+# LLM Video Analytics
 
-A full-stack application for analyzing videos and images using Google Gemini AI. Built following comprehensive software engineering standards.
+A full-stack application for analyzing videos and images using Google Gemini AI.
 
 ## Overview
 
@@ -65,44 +65,15 @@ Frontend will be available at: http://localhost:5173
 - **Rate Limiting**: Built-in API rate limiting
 - **Error Handling**: Standardized error codes and messages
 
-### Standards Applied
+### Architecture & Design
 
-The application follows comprehensive software engineering standards:
-
-1. **Architecture** ([016_ARCHITECTURE_DESIGN_PATTERNS_STANDARDS.md](../llm-video-analytics/STANDARDS/016_ARCHITECTURE_DESIGN_PATTERNS_STANDARDS.md))
-   - SOLID principles
-   - Service layer pattern
-   - Repository pattern
-   - Dependency injection
-
-2. **Security** ([000_SECURITY_CODING_STANDARDS.md](../llm-video-analytics/STANDARDS/000_SECURITY_CODING_STANDARDS.md))
-   - Secret management via environment variables
-   - JWT authentication
-   - Password hashing with bcrypt
-   - Input validation
-   - CORS configuration
-
-3. **Python** ([011_PYTHON_CODING_STANDARDS.md](../llm-video-analytics/STANDARDS/011_PYTHON_CODING_STANDARDS.md))
-   - PEP 8 compliance
-   - Type hints on all functions
-   - Comprehensive docstrings
-   - Black formatter standards (88 char lines)
-
-4. **JavaScript** ([012_JAVASCRIPT_CODING_STANDARDS.md](../llm-video-analytics/STANDARDS/012_JAVASCRIPT_CODING_STANDARDS.md))
-   - ESLint configuration
-   - Prettier formatting (2-space indent, 88 char lines)
-   - React best practices
-   - Functional components with hooks
-
-5. **Error Handling** ([007_ERROR_HANDLING_STANDARDS.md](../llm-video-analytics/STANDARDS/007_ERROR_HANDLING_STANDARDS.md))
-   - Standard error codes (100-599 range)
-   - Structured error responses
-   - Logging with context
-
-6. **Configuration** ([018_CONFIGURATION_MANAGEMENT_STANDARDS.md](../llm-video-analytics/STANDARDS/018_CONFIGURATION_MANAGEMENT_STANDARDS.md))
-   - Environment variable management
-   - Settings validation
-   - No hardcoded secrets
+- **SOLID principles** - Clean, maintainable code
+- **Service layer pattern** - Separated concerns
+- **Dependency injection** - Flexible, testable
+- **Type hints** - Predictable Python
+- **JWT authentication** - Secure, stateless auth
+- **Rate limiting** - Prevent API abuse
+- **Structured error handling** - Consistent responses
 
 ## Project Structure
 
